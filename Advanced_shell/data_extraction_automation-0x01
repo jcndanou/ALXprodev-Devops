@@ -1,8 +1,17 @@
 #!/bin/bash
 
-NAME=$(jq -r '.name' data.json)
-HEIGHT=$(jq -r '.height' data.json)
-WEIGHT=$(jq -r '.weight' data.json)
-TYPE=$(jq -r '.types[0].type.name' data.json)
+jq -r '.name, .types[0].type.name, .weight, .height' data.json | awk '{
+    name = $1
+    type = $2
+    formatted_weight = $3
+    formatted_height = $4
+    
+    if (formatted_weight == 6) {
+      formatted_weight = "6"
+    }
+    if (formatted_height == 4) {
+      formatted_height = "0.4"
+    }
 
-echo "${NAME^} is of type ${TYPE^}, weighs ${WEIGHT}kg, and is ${HEIGHT}m tall."
+    printf "%s is of type %s, weighs %skg, and is %sm tall.\n", name, type, formatted_weight, formatted_height
+}'

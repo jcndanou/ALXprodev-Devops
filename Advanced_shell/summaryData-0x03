@@ -4,6 +4,7 @@ REPORT_FILE="pokemon_report.csv"
 DATA_DIR="pokemon_data"
 
 echo "Name,Height (m),Weight (kg)" > "$REPORT_FILE"
+
 for file in "$DATA_DIR"/*.json; do
   NAME=$(jq -r '.name' "$file")
   HEIGHT=$(jq -r '.height' "$file")
