@@ -1,0 +1,31 @@
+#!/bin/bash
+
+POKEMON_LIST=("Bulbasaur" "Ivysaur" "Venusaur" "Charmander" "Charmeleon" "Invalid-pokemon")
+mkdir -p pokemon_data
+LOG_FILE="error_log.txt"
+> "$LOG_FILE"
+
+for pokemon in "${POKEMON_LIST[@]}"; do
+  retries=0
+  max_retries=3
+  success=false
+  
+  while [ $retries -lt $max_retries ] && [ "$success" = false ]; do
+    echo "Fetching data for $pokemon (Attempt $((retries + 1)))..."
+    if curl -s "https://pokeapi.co/api/v2/pokemon/$pokemon" > "pokemon_data/$pokemon.json"; then
+      echo "Saved data to pokemon_data/$pokemon.json ✅"
+      success=true
+    else
+      echo "Failed to fetch data for $pokemon. Retrying in 2 seconds..." >> "$LOG_FILE"
+      sleep 2
+      ((retries++))
+    fi
+  done
+  
+  if [ "$success" = false ]; then
+    echo "Failed to fetch data for $pokemon after $max_retries attempts. Skipping." >> "$LOG_FILE"
+  fi
+  sleep 1
+done
+
+echo "Toutes les données ont été traitées. Voir $LOG_FILE pour les erreurs."

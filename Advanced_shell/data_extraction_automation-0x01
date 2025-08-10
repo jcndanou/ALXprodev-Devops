@@ -1,0 +1,8 @@
+#!/bin/bash
+
+NAME=$(jq -r '.name' data.json)
+HEIGHT=$(jq -r '.height' data.json)
+WEIGHT=$(jq -r '.weight' data.json)
+TYPE=$(jq -r '.types[0].type.name' data.json)
+
+echo "${NAME^} is of type ${TYPE^}, weighs ${WEIGHT}kg, and is ${HEIGHT}m tall."

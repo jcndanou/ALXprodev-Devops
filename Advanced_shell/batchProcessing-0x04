@@ -1,0 +1,13 @@
+#!/bin/bash
+
+POKEMON_LIST=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
+mkdir -p pokemon_data
+echo "Fetching data for Pokémon in parallel..."
+
+for pokemon in "${POKEMON_LIST[@]}"; do
+  curl -s "https://pokeapi.co/api/v2/pokemon/$pokemon" > "pokemon_data/$pokemon.json" &
+done
+
+wait
+
+echo "All Pokémon data has been fetched and saved."

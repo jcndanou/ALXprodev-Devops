@@ -1,0 +1,9 @@
+#!/bin/bash
+
+API_URL="https://pokeapi.co/api/v2/pokemon/pikachu"
+curl -s "$API_URL" > data.json
+if [ $? -ne 0 ]; then
+  echo "Erreur lors de la requête API pour Pikachu." >> errors.txt
+  exit 1
+fi
+echo "Données de Pikachu sauvegardées dans data.json."

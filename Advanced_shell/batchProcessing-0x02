@@ -1,0 +1,10 @@
+#!/bin/bash
+
+POKEMON_LIST=("Bulbasaur" "Ivysaur" "Venusaur" "Charmander" "Charmeleon")
+mkdir -p pokemon_data
+for pokemon in "${POKEMON_LIST[@]}"; do
+    echo "Fetching data for $pokemon..."
+    curl -s "https://pokeapi.co/api/v2/pokemon/$pokemon" > "pokemon_data/$pokemon.json"
+    echo "Saved data to pokemon_data/$pokemon.json ✅"
+done
+echo "Toutes les données de Pokémon ont été récupérées."
